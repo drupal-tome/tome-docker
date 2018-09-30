@@ -6,6 +6,8 @@ development on a Tome project.
 The image can be built locally, or you can use the `mortenson/tome` image from
 Docker Hub.
 
+Credit to [frob] for contributing the original Dockerfile.
+
 # Creating a new Tome project
 
 This image can be used to initialize new Tome projects. To do this, run:
@@ -39,3 +41,4 @@ You can run any other command in a similar fashion if you need to.
 
 [Tome]: https://tome.fyi
 [tome-project]: https://github.com/drupal-tome/tome-project
+[frob]: https://github.com/frob
