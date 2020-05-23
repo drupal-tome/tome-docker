@@ -1,7 +1,7 @@
-FROM php:7.2-fpm
+FROM php:7.3-fpm
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends git zip
+    apt-get install -y --no-install-recommends git libzip-dev zip
 
 RUN apt-get install -y sqlite3 libsqlite3-dev
 
