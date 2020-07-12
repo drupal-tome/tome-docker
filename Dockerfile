@@ -1,7 +1,7 @@
 FROM php:7.3-fpm
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends git libzip-dev zip
+    apt-get install -y --no-install-recommends git libzip-dev zip unzip xvfb libnss3-dev gnupg2
 
 RUN apt-get install -y sqlite3 libsqlite3-dev
 
@@ -66,6 +66,19 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/tome
+
+# Install chrome/chromedriver
+RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add
+RUN echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list && \
+    apt-get -y update && apt-get -y install google-chrome-stable=83.0.4103.116-1
+
+RUN curl -OL https://chromedriver.storage.googleapis.com/83.0.4103.39/chromedriver_linux64.zip && \
+    unzip chromedriver_linux64.zip && \
+    rm chromedriver_linux64.zip && \
+    mv chromedriver /usr/bin/chromedriver
+
+# Copy custom php.ini settings
+COPY ./php.ini "$PHP_INI_DIR/conf.d/tome-docker.ini"
 
 EXPOSE 8888
 
