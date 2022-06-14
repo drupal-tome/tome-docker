@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:7.4-fpm
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends git libzip-dev zip unzip xvfb libnss3-dev gnupg2
@@ -22,7 +22,7 @@ RUN set -ex; \
     libpq-dev \
   ; \
   \
-  docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr; \
+  docker-php-ext-configure gd --with-jpeg=/usr; \
   docker-php-ext-install -j "$(nproc)" \
     gd \
     opcache \
@@ -64,15 +64,15 @@ RUN curl -OL https://github.com/drush-ops/drush-launcher/releases/download/0.5.1
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/tome
 
 # Install chrome/chromedriver
 RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add
 RUN echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list && \
-    apt-get -y update && apt-get -y install google-chrome-stable=83.0.4103.116-1
+    apt-get -y update && apt-get -y install google-chrome-stable=102.0.5005.115-1
 
-RUN curl -OL https://chromedriver.storage.googleapis.com/83.0.4103.39/chromedriver_linux64.zip && \
+RUN curl -OL https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip && \
     unzip chromedriver_linux64.zip && \
     rm chromedriver_linux64.zip && \
     mv chromedriver /usr/bin/chromedriver
