@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.1-fpm
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends git libzip-dev zip unzip xvfb libnss3-dev gnupg2
