@@ -70,9 +70,9 @@ WORKDIR /var/www/tome
 # Install chrome/chromedriver
 RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add
 RUN echo "deb https://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list && \
-    apt-get -y update && apt-get -y install google-chrome-stable=102.0.5005.115-1
+    apt-get -y update && apt-get -y install google-chrome-stable
 
-RUN curl -OL https://chromedriver.storage.googleapis.com/102.0.5005.61/chromedriver_linux64.zip && \
+RUN curl -OL https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip && \
     unzip chromedriver_linux64.zip && \
     rm chromedriver_linux64.zip && \
     mv chromedriver /usr/bin/chromedriver
