@@ -34,7 +34,7 @@ docker run --rm -it -p 8888:8888 -v "$(pwd)":/var/www/tome mortenson/tome
 To generate static HTML, run:
 
 ```
-docker run --rm -it -v "$(pwd)":/var/www/tome mortenson/tome drush tome:static
+docker run --rm -it -v "$(pwd)":/var/www/tome mortenson/tome vendor/bin/drush tome:static
 ```
 
 You can run any other command in a similar fashion if you need to.
