@@ -1,9 +1,19 @@
-FROM php:8.3-fpm
+FROM php:8.3.14-fpm-bookworm
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends git libzip-dev zip unzip xvfb libnss3-dev gnupg2
 
-RUN apt-get install -y sqlite3 libsqlite3-dev
+RUN apt-get install -y sqlite3 libsqlite3-dev wget
+
+### Drupal 11+ requires a minimum sqlite3 version (3.45 currently)
+### TODO: When we have this from upstream Debian 13 Trixie, we must remove this stanza
+ARG SQLITE_VERSION="3.45.1"
+ARG TARGETARCH="amd64"
+RUN mkdir -p /tmp/sqlite3 && \
+wget -O /tmp/sqlite3/sqlite3.deb https://snapshot.debian.org/archive/debian/20240203T152533Z/pool/main/s/sqlite3/sqlite3_${SQLITE_VERSION}-1_${TARGETARCH}.deb
+RUN wget -O /tmp/sqlite3/libsqlite3.deb https://snapshot.debian.org/archive/debian/20240203T152533Z/pool/main/s/sqlite3/libsqlite3-0_${SQLITE_VERSION}-1_${TARGETARCH}.deb
+RUN apt-get install -y /tmp/sqlite3/*.deb
+RUN rm -rf /tmp/sqlite3
 
 # This is copied from the official Docker "drupal" image's Dockerfile.
 # install the PHP extensions we need
